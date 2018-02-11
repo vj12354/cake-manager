@@ -1,19 +1,24 @@
 package com.waracle.cakemgr;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import org.hibernate.Session;
-import org.hibernate.exception.ConstraintViolationException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.URL;
-import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 
 @WebServlet("/cakes")
 public class CakeServlet extends HttpServlet {
@@ -86,7 +91,8 @@ public class CakeServlet extends HttpServlet {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         List<CakeEntity> list = session.createCriteria(CakeEntity.class).list();
-
+        session.close();
+        
         resp.getWriter().println("[");
 
         for (CakeEntity entity : list) {
@@ -100,7 +106,6 @@ public class CakeServlet extends HttpServlet {
         }
 
         resp.getWriter().println("]");
-
     }
 
 }
