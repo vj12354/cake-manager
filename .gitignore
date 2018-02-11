@@ -1,2 +1,7 @@
 /target
 /.idea
+
+# For eclipse or Spring STS
+.settings
+.classpath
+.project
